@@ -1,3 +1,4 @@
+import { delay } from 'rxjs/operators';
 import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 
@@ -7,14 +8,14 @@ declare const echarts: any;
   selector: 'ngx-solar',
   styleUrls: ['./solar.component.scss'],
   template: `
-    <nb-card size="xsmall" class="solar-card">
+    <nb-card size="tiny" class="solar-card">
       <nb-card-header>Solar Energy Consumption</nb-card-header>
       <nb-card-body>
         <div echarts [options]="option" class="echart">
         </div>
         <div class="info">
-          <div class="value">6. 421 kWh</div>
-          <div class="details"><span>out of</span> 8.421 kWh</div>
+          <div class="h4 value">6.421 kWh</div>
+          <div class="details subtitle-2"><span>out of</span> 8.421 kWh</div>
         </div>
       </nb-card-body>
     </nb-card>
@@ -27,6 +28,7 @@ export class SolarComponent implements AfterViewInit, OnDestroy {
   @Input('chartValue')
   set chartValue(value: number) {
     this.value = value;
+
     if (this.option.series) {
       this.option.series[0].data[0].value = value;
       this.option.series[0].data[1].value = 100 - value;
@@ -41,7 +43,7 @@ export class SolarComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.themeSubscription = this.theme.getJsTheme().delay(1).subscribe(config => {
+    this.themeSubscription = this.theme.getJsTheme().pipe(delay(1)).subscribe(config => {
 
       const solarTheme: any = config.variables.solar;
 
@@ -110,7 +112,7 @@ export class SolarComponent implements AfterViewInit, OnDestroy {
                 },
                 itemStyle: {
                   normal: {
-                    color: config.variables.layoutBg,
+                    color: solarTheme.secondSeriesFill,
                   },
                 },
               },

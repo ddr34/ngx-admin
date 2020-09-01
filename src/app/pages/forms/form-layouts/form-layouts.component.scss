@@ -1,10 +1,9 @@
-.full-width {
-  flex: 1;
-  min-width: 220px;
-}
-
 nb-checkbox {
   margin-bottom: 1rem;
+}
+
+.form-inline [fullWidth] {
+  flex: 1;
 }
 
 .form-inline > * {
